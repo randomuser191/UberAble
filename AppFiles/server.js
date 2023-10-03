@@ -3,20 +3,54 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
-
 /*Firebase*/
 const admin = require('firebase-admin');
 const FieldValue = require('firebase-admin').firestore.FieldValue;
-const serviceAccount = require('./uberhack-9ded1-firebase-adminsdk-pbcqo-17ba308a93.json');
+const serviceAccount = require('../uberhack-9ded1-firebase-adminsdk-pbcqo-17ba308a93.json');
 var custId = 1;
+// const fs = require('fs');
+// const pdf = require('pdf-parse');
+const T = require('tesseract.js');
+const { getStorage, ref, getDownloadURL } = require('firebase/storage');
+
+var dandelion = require("node-dandelion");
+dandelion.configure({
+  "app_key":"25bb08e1da774cf28998fc38d07700b1",
+  "app_id":"25bb08e1da774cf28998fc38d07700b1"
+});
+
 
 /*Variables*/
 var doc;
 var custCreated;
 var valid = false;
+var text;
+require('firebase/compat/auth');
+require('firebase/compat/firestore');
+const firebase = require("firebase/compat/app");
+const firebaseConfig = {
+    apiKey: "AIzaSyB2KC7jVSfQCY8PfHL5J4mHRNOy8sE6Mq4",
+    authDomain: "uberhack-9ded1.firebaseapp.com",
+    projectId: "uberhack-9ded1",
+    storageBucket: "uberhack-9ded1.appspot.com",
+    messagingSenderId: "892205616091",
+    appId: "1:892205616091:web:f32039b8a828854b7e35fe",
+    measurementId: "G-4N0SJ75FH4"
+  };
+
+/**Initialize Firebase App */
+let fbApp;
+if(firebase.apps.length == 0){
+    fbApp = firebase.initializeApp(firebaseConfig);
+}else{
+    fbApp = firebase.app();
+}
+
+
+
 
 app.use(bodyParser.json());
-app.use(function(res, next) {
+app.use(function(req, res, next) {
     res.header('Content-Type', 'application/json');
     next();
 });
@@ -69,6 +103,14 @@ app.get('/', async (req, res) =>{//Return if preferences were updated
     res.json({test: valid})
  })
 
+ app.post('/analyzeDoc', async (req, res) =>{
+    text = await extractText();
+ })
+ app.get('/analyzeDoc', async (req, res) =>{//Return if preferences were updated
+    console.log('get' + text)
+    res.json({data: text})
+ })
+
 /**Initialize Firebase App */
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
@@ -76,7 +118,8 @@ admin.initializeApp({
 const db = admin.firestore();
 
 /**Create a customer with Firebase Auth and store in Database */
-async function createCust(username, first, last, type){
+async function createCust(email, username, first, last, type){
+    console.log('type' + type)
     if(username.length > 0){
         db.collection(type).doc(username).set({firstName: first, lastName: last});
     }
@@ -106,6 +149,60 @@ async function updateUser(preference, token, type){
     console.log(obj);
     console.log('obj: ' + JSON.stringify(obj));
     db.collection(type).doc(token).update(obj);
-    console.log('updated user')
     return true
+}
+
+function convertDoc(doc){
+    doc.lastModifiedDate = new Date();
+    console.log(doc)
+    
+    let dataBuffer = fs.readFileSync(doc);
+    
+    pdf(dataBuffer).then(function(data) {
+        // use data
+    })
+    .catch(function(error){
+        // handle exceptions
+    })
+}
+
+async function extractText(){
+    const storage = getStorage();
+    var imageRef = ref("img.jpg");
+    var res;
+    var call = await getDownloadURL(ref(storage, imageRef));
+        console.log(call)
+        if(call.length > 1){
+            res = await T.recognize(call, "eng");
+        }
+    res = res.data.text.replace("/[^\w\s.&-]+/g", "");
+    console.log(res)
+    dandelion.txtSim(
+        {
+          "string1": {
+            "type":"txt",
+            "value":"Autism"
+          },
+          "string2":{
+            "type":"txt",
+            "value": res
+          },
+          "lang":"en",
+          "bow":"never"
+        },
+        function(results){
+          console.log(results.similarity)
+         if(results.similarity > 0.35){
+            setData("Certification of Additional Training in Autism");
+         }else{
+            setData("Invalid Document")
+         }
+        }
+      );
+        return "";
+}
+
+function setData(data){
+    console.log(data)
+    text = data;
 }
