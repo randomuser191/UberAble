@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     },
     text: {
       marginTop: '20%',
-      fontSize: 22,
+      fontSize: 25,
       fontWeight: '600'
     }
   });

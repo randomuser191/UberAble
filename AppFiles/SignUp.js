@@ -29,20 +29,19 @@ const SignUpScreen = ({route}) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const type = route.params;
-
+  console.log(type)
   const handleSignUp = (email, cPass, password, first, last) => {//Create user with firebase Auth
-    if(cPass == password){
-        createCust(email, password, first, last, type); //Send request to server to create user database
+    /*if(cPass == password){
+        createCust(email, password, first, last, type); //Send request to server to create user database*/
         setTimeout(() => {
-            checkCust().then(res => {
+            /*checkCust().then(res => {
                 console.log(res)
-                if(res){
-                    navigation.navigate('QuizTest') //Navigate to survey
-                }
-            }, 1000);
-        })
+                if(res){*/
+                    navigation.navigate('QuizTest', {type: type}) //Navigate to survey
+                /*}
+            });*/
+        }, 2000)
     }
-  }
   
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -78,7 +77,10 @@ const SignUpScreen = ({route}) => {
                 placeholder=" Email"
                 placeholderTextColor = '#555'
                 keyboardType="default"
+                inputMode='email'
                 maxLength={30}
+                autoCorrect = {false}
+                spellCheck={false}
                 />
             <TextInput
                 style={styles.input}
@@ -115,6 +117,7 @@ const SignUpScreen = ({route}) => {
 
 /**Send request to server to create a user */
 async function createCust(email, password, first, last, type){
+    console.log('createCustType ' + type)
   var userId;
   const auth = getAuth(app);
   createUserWithEmailAndPassword(auth, email, password).then(userCreds => {

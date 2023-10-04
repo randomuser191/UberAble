@@ -11,14 +11,20 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import data from "./QuizData";
+import riderQuestions from "./RiderQuestions";
 import ProgressBar from "./ProgressBar";
 import Questions from "./QuestionsTest";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import DriverQuestions from "./DriverQuestions";
+import RiderQuestions from "./RiderQuestions";
+
+import Tesseract from "tesseract.js";
 
 /**Page for Survey */
-const QuizPage = ({ navigation }) => {
-  const allQuestions = data;
+const QuizPage = ({ navigation, route }) => {
+  var allQuestions; 
+  if(route.params.type == "riders") allQuestions = RiderQuestions;
+  else allQuestions = DriverQuestions;
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [progress, setProgress] = useState(new Animated.Value(1));
@@ -27,7 +33,6 @@ const QuizPage = ({ navigation }) => {
   const [isOptionsDisabled, setIsOptionsDisabled] = useState(false);
   const [currentOptionSelected, setCurrentOptionSelected] = useState(null);
   const [correctOption, setCorrectOption] = useState(null);
-  const [score, setScore] = useState(0);
   const [options, setOptions] = useState([]); 
   const [fireToken, setFireToken] = useState([]);
   const [type, setType] = useState(''); 
@@ -48,7 +53,8 @@ const QuizPage = ({ navigation }) => {
     Animated.parallel([
       Animated.timing(progress, {
         toValue: currentQuestionIndex + 2,
-        duration: 500,
+        delay: 500,
+        duration: 1500,
         // duration: 5000,
         useNativeDriver: false,
       }),
@@ -89,7 +95,8 @@ useEffect(() => {
     Animated.parallel([
       Animated.timing(progress, {
         toValue: currentQuestionIndex,
-        duration: 500,
+        duration: 1500,
+        delay: 500,
         useNativeDriver: false,
       }),
       Animated.sequence([
@@ -152,14 +159,16 @@ useEffect(() => {
     );
   };
   return (
-    <ScrollView style={styles.scrollView}>
+    <ScrollView style={styles.scrollView} showsVerticalScrollIndicator = {false}>
       <View style={styles.container}>
         <View style={styles.subContainer}>
           <ProgressBar progress={progress} />
 
           <Questions
+          navigation={navigation}
             index={currentQuestionIndex}
             question={allQuestions[currentQuestionIndex]?.question}
+            setData = {setOptions}
           />
         </View>
         {renderOptions(navigation)}
@@ -180,6 +189,7 @@ useEffect(() => {
     </ScrollView>
   );
 };
+
 
 const styles = StyleSheet.create({
   scrollView: { backgroundColor: "#fff" },

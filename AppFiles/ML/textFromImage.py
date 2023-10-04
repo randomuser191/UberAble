@@ -3,6 +3,10 @@ import numpy as np
 import requests
 import io
 import json
+import sys
+
+import re
+
 
 img = cv2.imread("screenshot2.jpg")
 
@@ -27,9 +31,16 @@ result = json.loads(result)
 
 parsed_results = result.get("ParsedResults")[0]
 text_detected = parsed_results.get("ParsedText")
-print(text_detected)
 
-cv2.imshow("roi", roi)
-cv2.imshow("Img", img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+mydata = re.sub(r"[^a-zA-Z0-9 ]", "", result.get("ParsedResults")[0].get("ParsedText"))
+
+resp = {
+    "Response": 200,
+    "Message": "Data from Python",
+    "MyData": mydata
+    
+}
+
+print(json.dumps(resp))
+
+sys.stdout.flush()

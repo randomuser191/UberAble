@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Button, ScrollView, Dimensions, TextInput, Touchable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 /**Home page for driver */
 
-const DriverHomePage = () => {
-  const navigation = useNavigation();
+const DriverHomePage = ({navigation}) => {
+
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.navigate("RiderFound")
+    }, 3500)
+  }, [])
   return (
     <View>
       <View style = {{height: 40, position: 'fixed', top: 0, left: 0, backgroundColor: '#FFF'}}></View>
@@ -15,24 +20,24 @@ const DriverHomePage = () => {
               <Text style = {styles.welcomeText}>Welcome, Driver!</Text>
               </View>
               <View style = {styles.titleCont}>
-                <Text style = {styles.title}>Your Certifications</Text>
+                <Text style = {styles.title}>Your Profile</Text>
               </View>
               <View style = {styles.preferencesCont}>
                 <View style = {styles.preference}>
                   <Image source={require('./assets/CheckmarkIcon.png')} style = {styles.checkmarkIcon}></Image>
-                  <Text style = {styles.preferenceText}>Social Anxiety Certification</Text>
+                  <Text style = {styles.preferenceText}>Willing to help people with special needs</Text>
                 </View>
                 <View style = {styles.preference}>
                   <Image source={require('./assets/CheckmarkIcon.png')} style = {styles.checkmarkIcon}></Image>
-                  <Text style = {styles.preferenceText}>Autism Certification</Text>
+                  <Text style = {styles.preferenceText}>Certification of Additional Training in Autism</Text>
                 </View>
                 <View style = {styles.preference}>
                   <Image source={require('./assets/CheckmarkIcon.png')} style = {styles.checkmarkIcon}></Image>
-                  <Text style = {styles.preferenceText}>Parkinson's Disease Certification</Text>
+                  <Text style = {styles.preferenceText}>A lot of experience working with people with special needs</Text>
                 </View>
                 <TouchableOpacity style = {styles.changePreferences} onPress={() => navigation.navigate('QuizTest')}>
                   <Image source = {require('./assets/ClipboardIcon.png')} style = {{height: 30, width: 30, resizeMode: 'contain', marginRight: '5%'}}></Image>
-                  <Text style = {[styles.preferenceText, {fontSize: 23}]}>View Certifications</Text>
+                  <Text style = {[styles.preferenceText, {fontSize: 23, left: '50%', width: '60%'}]}>Edit Profile</Text>
                 </TouchableOpacity>
               </View>
               <TouchableOpacity style = {styles.findDriverButton}>
@@ -129,7 +134,8 @@ const styles = StyleSheet.create({
   },
   preferenceText: {
     fontSize: 22,
-    fontWeight: '600'
+    fontWeight: '600',
+    width: '85%'
   },
   changePreferences: {
     height: '18%',

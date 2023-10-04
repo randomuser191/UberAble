@@ -9,7 +9,7 @@ function RiderFound({navigation}){
             </View>
             <View style = {styles.infoCont}>
                 <Image source = {require('./assets/DefaultUserIcon.png')} style = {styles.profileImg}></Image>
-                <Text style = {styles.name}>Daniel Doe</Text>
+                <Text style = {styles.name}>John Doe</Text>
             </View>
             <View style = {styles.certCont}>
                 <Text style = {styles.subTitle}>Preferences:</Text>
@@ -36,14 +36,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     titleCont: {
-        height: '8%',
+        height: '5%',
         width: '100%',
         backgroundColor: '#FFF',
-        marginTop: '25%',
+        marginTop: '20%',
         alignItems: 'center'
     },
     title: {
-        fontSize: 35,
+        fontSize: 30,
         fontWeight: '600',
     },
     infoCont: {
@@ -51,13 +51,13 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     profileImg: {
-        height: 175,
-        width: 175,
+        height: 180,
+        width: 180,
         resizeMode: 'contain'
     },
     name: {
-        fontSize: 35,
-        fontWeight: '500',
+        fontSize: 32,
+        fontWeight: '400',
         marginTop: '2.5%'
     },
     certCont: {
@@ -81,8 +81,9 @@ const styles = StyleSheet.create({
     },
     certText: {
         fontSize: 25,
-        fontWeight: '600',
-        width: '95%'
+        fontWeight: '500',
+        width: '95%',
+        left: '15%'
     },
     button: {
         height: '18%',

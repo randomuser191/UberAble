@@ -3,22 +3,23 @@ import { useEffect } from "react";
 /**Set preferences in firebase server */
 const Result = ({ navigation, route }) => {
   useEffect(() => {
-    fetchApi(route.params.preferences, route.params.token, route.params.type);
+    //fetchApi(route.params.preferences, route.params.token, route.params.type);
     setTimeout(() => {
-      getFetch().then(result => {
-        if(result == true){
+      //getFetch().then(result => {
+        //if(result == true){
+          if(route.params.type == "riders")
               navigation.navigate('BottomTabNav', {preferences: route.params.preferences})
-        }else{
-          console.log("Error")
-        }
-      })
-    }, 3500)
-
+            else
+            navigation.navigate('BottomTabNav2', {preferences: route.params.preferences})
+        //}else{
+          //console.log("Error")
+        //}
+      }, 3500)
   }, [route.params])
   return (
     <View style={styles.container}>
       <ActivityIndicator size = "large" style = {styles.loader} color = '#000'></ActivityIndicator>
-      <Text style = {styles.text}>Setting your Preferences...</Text>
+      <Text style = {styles.text}>Updating Account Details...</Text>
       {/* <View style={styles.subContainer}>
         <Text style={{ fontSize: 50 }}>Your Score</Text>
 

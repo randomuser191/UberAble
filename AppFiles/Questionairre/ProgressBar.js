@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Animated, StyleSheet } from "react-native";
-import data from "./QuizData";
+import data from "./RiderQuestions";
 
 /**Animate progressBar to move dynamically */
 const ProgressBar = ({ progress }) => {

@@ -9,11 +9,11 @@ dandelion.txtSim(
   {
     "string1": {
       "type":"txt",
-      "value":"Autism, Social Anxiety, Noise Sensitivity, Light Sensitivity"
+      "value":"Autism"
     },
     "string2":{
       "type":"txt",
-      "value": "\"\øCCEs CAS CERTIFIED AUTISM SPECIALIST The International Board of Credentialing and Continuing Education Standards hereby certifies that aubra has successfully fulfilled the requirements as a Certified Autism Specialist. The Certified Autism Sgrcialist (CAS) credential is awarded to professionals working with individuals with autism in thc ond healthcare industries Thc CAS recognizes education, and commitment Of professionals worldwide Myron IBCCES International Board of Credentialing Continuing Education Standards IBCCES BOMd Valid Thru 12-29-2021 CAS205693"
+      "value": "AUTISM SPECIALIST Certified Autism Specialist. The Certified Autism Sgrcialist (CAS) credential is awarded to professionals working with individuals with autism in thc ond healthcare industries Thc CAS recognizes education, and commitment Of professionals worldwide Myron IBCCES International Board of Credentialing Continuing Education Standards IBCCES BOMd Valid Thru 12-29-2021 CAS205693"
     },
     "lang":"en",
     "bow":"never"

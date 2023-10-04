@@ -13,6 +13,7 @@ import DriverFound from './AppFiles/DriverFound';
 import LoadingPage from './AppFiles/LoadingPage';
 import MapPage from './AppFiles/MapPage';
 import RiderFound from './AppFiles/NewRider';
+import BottomTabNavDriver from './AppFiles/bottomTabNavigationDriver';
 
 /**Navigation Cont */
 const Stack = createNativeStackNavigator();
@@ -30,6 +31,7 @@ export default function App() {
           <Stack.Screen name ="Welcome" component={Welcome} options={{headerShown: false}}/>
           <Stack.Screen name ="DriverHome" component={DriverHomePage} options={{headerShown: false}}/> 
           <Stack.Screen name ="BottomTabNav" component={BottomTabNav} options={{headerShown: false}}/>
+          <Stack.Screen name ="BottomTabNav2" component={BottomTabNavDriver} options={{headerShown: false}}/>
           <Stack.Screen name ="DriverFound" component={DriverFound} options={{headerShown: false}}/>
           <Stack.Screen name ="LoadingPage" component={LoadingPage} options={{headerShown: false}}/>
           <Stack.Screen name ="MapPage" component={MapPage} options={{headerShown: false}}/>

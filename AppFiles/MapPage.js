@@ -1,8 +1,20 @@
-import { ScrollView, StyleSheet, Text, TextInput, View, Dimensions, TouchableOpacity, Image } from "react-native";
+import { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, Text, TextInput, View, Dimensions, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import MapView from "react-native-maps";
 
 /**Page when Entering a destinatino */
-function MapPage(){
+function MapPage({navigation}){
+    const [opac1, setOpac1] = useState(0);
+    const [oapc2, setOpac2] = useState(0);
+    useEffect(()=> {
+        setTimeout(() => {
+            setOpac1(1);
+        }, 3000)
+        setTimeout(() => {
+            setOpac1(0);
+            setOpac2(1);
+        }, 6000)
+    },[])
     return(
     <View style = {styles.mainCont}>
         <View style = {styles.mapCont}>
@@ -14,22 +26,26 @@ function MapPage(){
                     <TextInput style = {styles.searchBar} placeholder="Where To?"></TextInput>
                 </View>
             </View>
-            <View style  = {styles.titleCont}>
-                <Text style = {styles.title}>Best Drivers</Text>
-            </View>
-            <ScrollView>
-                <View style = {[styles.driverCont, {borderWidth: 3, borderColor: '#001B93', height: 150}]}>
+            <ScrollView showsVerticalScrollIndicator = {false}>
+                <View>
+                    <ActivityIndicator style = {{opacity: opac1, marginTop: opac1 * 25, height: opac1 * 100}} color = {"#000"} size={"large"}></ActivityIndicator>
+                </View>
+                <View style = {{opacity: oapc2}}>
+                <View style  = {styles.titleCont}>
+                    <Text style = {styles.title}>Reccomended Drivers Near You</Text>
+                </View>
+                <TouchableOpacity style = {[styles.driverCont, {borderWidth: 3, borderColor: '#001B93', height: 150}]} onPress = {() => navigation.navigate('LoadingPage', 'Contacting Driver')}>
                     <View style = {styles.imageCont}>
                         <Image source = {require('./assets/DefaultUserIcon.png')} style = {styles.pfp}></Image>
                     </View>
                         <View style = {styles.rightText}>
-                            <Text style = {styles.name}>John Doe <Text style = {{fontSize: 18, color: "grey", fontWeight: '400'}}>5 mi</Text></Text>
+                            <Text style = {styles.name}>John Smith <Text style = {{fontSize: 18, color: "grey", fontWeight: '400'}}>5 mi</Text></Text>
                             <TouchableOpacity style = {styles.button}>
                                 <Text style = {styles.buttonText}>View Profile</Text>
                             </TouchableOpacity>
                     </View>
                     
-                </View>
+                </TouchableOpacity>
                 <View style = {styles.driverCont}>
                     <View style = {styles.imageCont}>
                         <Image source = {require('./assets/DefaultUserIcon.png')} style = {styles.pfp}></Image>
@@ -47,13 +63,14 @@ function MapPage(){
                         <Image source = {require('./assets/DefaultUserIcon.png')} style = {styles.pfp}></Image>
                     </View>
                         <View style = {styles.rightText}>
-                            <Text style = {styles.name}>Jane Doe <Text style = {{fontSize: 18, color: "grey", fontWeight: '400'}}>8 mi</Text></Text>
+                            <Text style = {styles.name}>Jane White <Text style = {{fontSize: 18, color: "grey", fontWeight: '400'}}>8 mi</Text></Text>
                             <TouchableOpacity style = {styles.button}>
                                 <Text style = {styles.buttonText}>View Profile</Text>
                             </TouchableOpacity>
                     </View>
-                    
+                    </View>
                 </View>
+                <View style = {{height: 100}}></View>
             </ScrollView>
         </View>
     </View> 
@@ -67,7 +84,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     mapCont: {
-        height: Dimensions.get('window').height * .4,
+        height: Dimensions.get('window').height * .35,
         width: '100%'
     },
     map: {
@@ -75,7 +92,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     bottomCont:{
-        height: Dimensions.get("window").height * .6,
+        height: Dimensions.get("window").height * .65,
         width: "100%",
         backgroundColor: "#FFF",
         alignItems: 'center'
@@ -102,16 +119,16 @@ const styles = StyleSheet.create({
         fontWeight: '600'
     },
     titleCont: {
-        height: '5%',
-        marginTop: '5%',
+        height: 45,
+        marginTop: '2.5%',
         width: '90%',        
     },
     title: {
-        fontSize : 30,
+        fontSize : 25,
         fontWeight: '600',
     },
     driverCont:{
-        height: 110,
+        height: 105,
         width: Dimensions.get('window').width * .95,
         alignSelf: "center",
         backgroundColor:"#FDFDFD",
